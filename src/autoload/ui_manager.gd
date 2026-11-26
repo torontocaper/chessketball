@@ -7,7 +7,8 @@ signal ui_updated(new_ui_scene : Control)
 #region ENUMS
 enum UIState {
 	OPEN, 
-	MAIN
+	MAIN,
+	DISABLED
 }
 #endregion
 

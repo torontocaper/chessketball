@@ -41,6 +41,7 @@ var team_state : TeamState:
 	#region Overrides
 func _ready() -> void:
 	players = _get_players()
+	team_state = TeamState.INACTIVE
 	#endregion
 
 	#region Private/Helper

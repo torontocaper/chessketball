@@ -11,10 +11,10 @@ signal score_updated(team : Team, new_score : int)
 #region PROPERTIES
 #region Regular variables
 ## The home team
-var home_team : Team
+@export var home_team : Team
 
 ## The away team
-var away_team : Team
+@export var away_team : Team
 
 ## The score for the [member home_team]
 var home_score: int = 0:
@@ -59,6 +59,7 @@ func _ready() -> void:
 ## Start (or restart) the game!
 func start_game() -> void:
 	var coin_toss_winner = TurnManager.flip_coin(home_team, away_team)
-	print_debug("%s gets first ball" % coin_toss_winner.name)
+	print_debug("%s wins the coin toss" % coin_toss_winner.name)
+	#TurnManager.active_team = coin_toss_winner
 #endregion
 #endregion

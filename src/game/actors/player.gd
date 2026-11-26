@@ -74,12 +74,14 @@ var is_on_court : bool = false:
 ## The state this player is currently in. Corresponds to one of the [enum PlayerState] enums
 var player_state : PlayerState: 
 	set(value):
+		print_debug("Setting %s state to %s" % [name, PlayerState.keys()[value]])
 		player_state = value
 		match player_state:
 			PlayerState.SELECTED:
 				player_sprite.scale = Vector2.ONE * SELECTED_SCALE
 				player_sprite.modulate = Color.WHITE
 				player_light.visible = true
+				#UiManager.current_ui_scene.mouse_filter == Control.MouseFilter
 			PlayerState.SELECTABLE:
 				player_sprite.scale = Vector2.ONE
 				player_sprite.modulate = Color.WHITE
@@ -93,6 +95,8 @@ var player_state : PlayerState:
 				player_sprite.scale = Vector2.ONE * SELECTED_SCALE
 				player_sprite.modulate = Color.WHITE
 				player_light.visible = true
+				#TODO: This doesn't work; clicking 'end turn' while player is moving crashes the game
+				#UiManager.current_ui_scene.mouse_filter == Control.MouseFilter.MOUSE_FILTER_IGNORE
 				pass
 			_:
 				pass

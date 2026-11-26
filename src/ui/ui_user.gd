@@ -97,7 +97,7 @@ func _on_game_controls_visibility_changed() -> void:
 		TurnManager.active_player_set.connect(set_new_active_player_or_null)
 		set_new_active_team(TurnManager.active_team)
 		TurnManager.active_team_set.connect(set_new_active_team)
-		end_turn_button.pressed.connect(TurnManager.end_turn)
+		end_turn_button.pressed.connect(TurnManager.end_turn.bind(user_team))
 
 func _on_team_list_item_selected(team_index : int) -> void:
 	user_team = Teams.teams[team_index]

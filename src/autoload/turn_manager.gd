@@ -15,6 +15,7 @@ signal turn_ended
 ## The currently active [Team]
 var active_team : Team: 
 	set(value):
+		print_debug("Setting active team to %s" % value.name)
 		# If there's already an active_team, make that team inactive
 		if active_team:
 			inactive_team = active_team
@@ -28,11 +29,11 @@ var active_team : Team:
 		start_turn(active_team)
 
 ## The currently inactive [Team]
-#NOTE Is this necessary?
 var inactive_team : Team:
 	set(value):
+		print_debug("Setting inactive team to %s" % value.name)
 		inactive_team = value
-		# Change the team's state to INACTIVE
+		## Change the team's state to INACTIVE
 		inactive_team.team_state = Team.TeamState.INACTIVE
 
 ## The currently active [Player]
@@ -53,10 +54,11 @@ func flip_coin(team_1 : Team, team_2 : Team) -> Team:
 	if randi() % 2:
 		active_team = team_1
 		inactive_team = team_2
+		return team_1
 	else:
 		active_team = team_2
 		inactive_team = team_1
-	return active_team
+		return team_2
 
 ## What to do when a [Player] is clicked. Each [Player] connects their "player_clicked" signal to this method
 func on_player_clicked(clicked_player : Player) -> void:
@@ -80,15 +82,23 @@ func on_player_clicked(clicked_player : Player) -> void:
 			return
 
 ## End the [member active_team]'s turn
-func end_turn() -> void:
-	print_debug("Ending turn for %s" % active_team.name)
-	# Make the inactive_team the new active_team
-	active_team = inactive_team
-	# Clear the active_player variable
-	active_player = null
-	turn_ended.emit()
+func end_turn(end_turn_team : Team) -> void:
+	print_debug("Ending turn for %s" % end_turn_team.name)
+	if end_turn_team == inactive_team:
+		printerr("Can't end a turn for an inactive team")
+		pass
+	else:
+		print_debug("Ending turn for %s" % end_turn_team.name)
+		# Make the inactive_team the new active_team
+		active_team = inactive_team
+		# Clear the active_player variable
+		active_player = null
+		turn_ended.emit()
 
-## Start the turn for [param turn_team]
-func start_turn(turn_team : Team) -> void:
-	print_debug("Starting turn for %s" % turn_team.name)
+## Start the turn for [param start_turn_team]
+func start_turn(start_turn_team : Team) -> void:
+	if start_turn_team == inactive_team:
+		printerr("Can't start a turn for an inactive team")
+	else:
+		print_debug("Starting turn for %s" % start_turn_team.name)
 #endregion
